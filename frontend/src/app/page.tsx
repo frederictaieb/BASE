@@ -1,0 +1,42 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export default function Home() {
+  const [apiMessage, setApiMessage] = useState('');
+  const [wsMessage, setWsMessage] = useState('');
+  const [username, setUsername] = useState('demo');
+
+  useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api`)
+      .then((res) => res.json())
+      .then((data) => setApiMessage(data.message));
+  }, []);
+
+  const connectWebSocket = () => {
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000'}/ws/${username}`);
+    ws.onopen = () => ws.send("Hello from frontend");
+    ws.onmessage = (event) => setWsMessage(event.data);
+  };
+
+  return (
+    <main className="min-h-screen flex flex-col items-center justify-center p-6 bg-gray-100 text-center">
+      <h1 className="text-3xl font-bold mb-4">Frontend Test → FastAPI</h1>
+      <p className="mb-2">API Response: <strong>{apiMessage}</strong></p>
+      <input
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        className="p-2 border rounded mb-4"
+        placeholder="username"
+      />
+      <button
+        onClick={connectWebSocket}
+        className="px-4 py-2 bg-blue-600 text-white rounded"
+      >
+        Connect to WebSocket
+      </button>
+      <p className="mt-4 text-lg">{wsMessage}</p>
+    </main>
+  );
+}
