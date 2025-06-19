@@ -1,1 +1,1 @@
-docker run --rm -it -p 8000:8000 myfastapi
+docker run --rm -it -p 8001:8001 myfastapi

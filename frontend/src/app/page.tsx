@@ -8,13 +8,13 @@ export default function Home() {
   const [username, setUsername] = useState('demo');
 
   useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api`)
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'}/api`)
       .then((res) => res.json())
       .then((data) => setApiMessage(data.message));
   }, []);
 
   const connectWebSocket = () => {
-    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000'}/ws/${username}`);
+    const ws = new WebSocket(`${process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8001'}/ws/${username}`);
     ws.onopen = () => ws.send("Hello from frontend");
     ws.onmessage = (event) => setWsMessage(event.data);
   };
