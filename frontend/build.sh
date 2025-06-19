@@ -1,1 +1,1 @@
-docker build -f Dockerfile.dev -t myfrontend-dev .
+docker build --no-cache -f Dockerfile -t myfrontend .

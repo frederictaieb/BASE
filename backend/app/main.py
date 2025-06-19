@@ -14,8 +14,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api")
-async def hello():
+@app.get("/api/helloworld")
+async def helloworld():
     return {"message": "Hello from FastAPI!"}
 
 @app.websocket("/ws/{username}")

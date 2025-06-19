@@ -4,7 +4,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile
     container_name: fastapi-backend
     ports:
       - "8001:8001"
@@ -17,7 +17,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile
     container_name: nextjs-frontend
     ports:
       - "3000:3000"
@@ -30,4 +30,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
