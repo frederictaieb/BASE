@@ -1,5 +1,6 @@
+
 class Client:
-    def __init__(self, username: str, websocket):
+    def __init__(self, username: str):
         self.username = username
-        self.websocket = websocket
+
 

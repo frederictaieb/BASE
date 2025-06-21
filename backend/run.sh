@@ -1,1 +1,2 @@
-docker run --rm -it -p 8001:8001 myfastapi
+source .venv/bin/activate
+uvicorn app.main:app --host 0.0.0.0 --port 7001 --reload

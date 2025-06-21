@@ -1,8 +1,8 @@
 import requests
-from app.utils.logger import setup_logging
+from app.utils.logger import logger_init
 import logging
 
-setup_logging()
+logger_init(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 

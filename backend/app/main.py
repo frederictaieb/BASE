@@ -1,10 +1,9 @@
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
-from app.models.client import Client
-from typing import List
+from app.routes import api
+from app.routes import websocket as ws_route
 
 app = FastAPI()
-clients: List[Client] = []
 
 app.add_middleware(
     CORSMiddleware,
@@ -14,20 +13,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/api/helloworld")
-async def helloworld():
-    return {"message": "Hello from FastAPI!"}
+# Inclure les routes HTTP sous le préfixe "/eaim/fastapi"
+app.include_router(api.router)
 
+# Ajouter la route WebSocket manuellement (sans le routeur)
 @app.websocket("/ws/{username}")
-async def websocket_endpoint(websocket: WebSocket, username: str):
-    await websocket.accept()
-    client = Client(username=username, websocket=websocket)
-    clients.append(client)
-
-    try:
-        while True:
-            data = await websocket.receive_text()
-            await websocket.send_text(f"Hello {client.username}, you said: {data}")
-    except WebSocketDisconnect:
-        clients.remove(client)
-
+async def websocket_entrypoint(websocket: WebSocket, username: str):
+    await ws_route.websocket_endpoint(websocket, username)
